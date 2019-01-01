@@ -19,6 +19,9 @@ controlLuaFolder = "./saves/workingSquares/control.lua"
 # zip to insert changes into
 zipToInsertInto = r"C:\Users\baines\AppData\Roaming\Factorio\saves\workingSquares.zip"
 
+# how frequently to scan folders and files (in seconds)
+scanDelay = 1.1
+
 # GLOBALS ^ GLOBALS ^ GLOBALS ^ GLOBALS ^ GLOBALS ^ GLOBALS ^ GLOBALS ^ GLOBALS 
 
 
@@ -77,11 +80,45 @@ def lastModifiedDictionary(rootFolder):
    
    return retdict
 
-print()
-lastModDict = lastModifiedDictionary(rootFolderToMonitor)
-for key, value in lastModDict.items():
-   if value<0:
-      print(key)
-   else:
-      print(key,value)
 
+
+
+
+history = lastModifiedDictionary(rootFolderToMonitor)
+
+
+def compareLastModDicts(old,new):
+   oldkeys = old.keys()
+   newkeys = new.keys()
+
+   allkeys = list(set().union(oldkeys, newkeys))
+
+   for key in allkeys:
+      if key not in oldkeys:
+         print("added",key)
+      if key not in newkeys:
+         print("removed",key)
+   
+
+
+
+def scan():
+   global history
+   print('.', end='', flush=True)
+   newLMD = lastModifiedDictionary(rootFolderToMonitor)
+   compareLastModDicts(history,newLMD)
+
+
+   history = newLMD
+
+
+def scanThreader():
+   scan()   
+   t = threading.Timer(scanDelay, scanThreader)
+   t.start()
+
+def startScanThreader():
+   t = threading.Timer(scanDelay, scanThreader)
+   t.start()
+
+startScanThreader()

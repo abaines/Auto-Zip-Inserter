@@ -202,6 +202,9 @@ def compareLastModDicts(old,new,epochStart):
    if len(catoc) is 0:
       return
 
+   # who doesn't love it when their computer beeps at them?
+   winsound.Beep(120,60)
+
    for idx, item in enumerate(catoc):
       catoc[idx] = zipBaseFolder+'/'+catoc[idx]
 
@@ -235,6 +238,9 @@ def compareLastModDicts(old,new,epochStart):
    os.remove(zipToInsertInto)
    os.rename(tmpname, zipToInsertInto)
    print(round(epoch()-epochStart,6))
+
+   # Really!
+   winsound.Beep(320,60)
 
 
 

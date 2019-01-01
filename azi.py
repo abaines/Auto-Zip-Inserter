@@ -48,7 +48,10 @@ if not os.path.isfile(zipToInsertInto):
 if not os.path.exists(zipToInsertInto):
         raise Exception("Could not find zip file: " + zipToInsertInto)
 
-print(controlLuaFolder)
+# internal global
+rootFolderToMonitor = os.path.dirname(controlLuaFolder)
+
+print(rootFolderToMonitor)
 print(zipToInsertInto)
 
 
@@ -59,5 +62,26 @@ def hashSha1(readFile):
 	return hashlib.sha1(readFile).hexdigest()
 
 
+def lastModifiedDictionary(rootFolder):
+   rootFolder = os.path.abspath(rootFolder)
+   retdict = {}
 
+   for (dirpath, dirnames, filenames) in os.walk(rootFolder):
+      for filename in filenames:
+         fullname = os.path.join(dirpath,filename)
+         
+         if not os.path.exists(fullname):
+            raise
+         lastM = lastModified(fullname)
+         retdict[fullname] = lastM
+   
+   return retdict
+
+print()
+lastModDict = lastModifiedDictionary(rootFolderToMonitor)
+for key, value in lastModDict.items():
+   if value<0:
+      print(key)
+   else:
+      print(key,value)
 

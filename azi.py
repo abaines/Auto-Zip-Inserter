@@ -68,6 +68,9 @@ def lastModified(path):
 def hashSha1(readFile):
 	return hashlib.sha1(readFile).hexdigest()
 
+def epoch():
+   return time.time()
+
 
 def lastModifiedDictionary(rootFolder):
    rootFolder = os.path.abspath(rootFolder)
@@ -115,17 +118,23 @@ history = lastModifiedDictionary(rootFolderToMonitor)
 
 LEN_ROOT_FOLDER_NAME = 1+len(rootFolderToMonitor)
 
+
 def fileAdded(zipf,filename):
    print("added",filename)
+   fileInsideZip = zipBaseFolder+'/'+filename[LEN_ROOT_FOLDER_NAME:]
+   print("inside zip :",fileInsideZip)
+
+   zipf.write(filename, fileInsideZip)
+
 
 def fileDeleted(zipf,filename):
    print("deleted",filename)
+
 
 def fileModified(zipf,filename):
    print("modified   :",filename)
    fileInsideZip = zipBaseFolder+'/'+filename[LEN_ROOT_FOLDER_NAME:]
    print("inside zip :",fileInsideZip)
-
 
    zipf.write(filename, fileInsideZip)
 
@@ -166,8 +175,6 @@ def remakeZipWithoutFilenames(zipname, filenames):
    tmpfd, tmpname = tempfile.mkstemp(dir=os.path.dirname(zipname))
    os.close(tmpfd)
 
-   print(tmpfd, tmpname)
-
    # create a temp copy of the archive without filename            
    with zipfile.ZipFile(zipname, 'r') as zin:
       with zipfile.ZipFile(tmpname, 'w') as zout:
@@ -177,14 +184,14 @@ def remakeZipWithoutFilenames(zipname, filenames):
             if itemfilename not in filenames:
                zout.writestr(item, zin.read(itemfilename))
             else:
-               print("skipping:",itemfilename)
+               print("skipping   :",itemfilename)
 
-   # replace with the temp archive
-   os.remove(zipname)
-   os.rename(tmpname, zipname)
+   return tmpname
+
+   
 
 
-def compareLastModDicts(old,new):
+def compareLastModDicts(old,new,epochStart):
    oldkeys = old.keys()
    newkeys = new.keys()
 
@@ -198,11 +205,13 @@ def compareLastModDicts(old,new):
    for idx, item in enumerate(catoc):
       catoc[idx] = zipBaseFolder+'/'+catoc[idx]
 
-   print("one or more changes detected",catoc)
+   print()
+   print("one or more changes detected :",catoc)
 
-   remakeZipWithoutFilenames(zipToInsertInto,catoc)
+   tmpname = remakeZipWithoutFilenames(zipToInsertInto,catoc)
+   print('tmpname    :',tmpname)
 
-   with zipfile.ZipFile(zipToInsertInto,'a', compression=ZipFile.ZIP_DEFLATED) as zipf:
+   with zipfile.ZipFile(tmpname,'a') as zipf:
       # zip open
       
       for key in allkeys:
@@ -221,16 +230,21 @@ def compareLastModDicts(old,new):
             if oldModifiedDate != newModifiedDate:
                fileModified(zipf,key)
 
-   
+   # replace with the temp archive
+   print("updating zip : ", end='', flush=True)
+   os.remove(zipToInsertInto)
+   os.rename(tmpname, zipToInsertInto)
+   print(epoch()-epochStart)
 
 
 
 def scan():
+   epochStart = epoch()
    global history
    print('.', end='', flush=True)
    
    newLMD = lastModifiedDictionary(rootFolderToMonitor)
-   compareLastModDicts(history,newLMD)
+   compareLastModDicts(history,newLMD,epochStart)
 
    # update history with new last modified dictionary
    history = newLMD

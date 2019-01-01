@@ -12,9 +12,14 @@ import re
 
 
 
+# folder to monitor for changes
+rootOfFolderToWatch = ""
 
+# extensions to monitor and insert
+extensionsList = [".lua"]
 
-
+# zip to insert changes into
+zipToInsertInto = ""
 
 
 

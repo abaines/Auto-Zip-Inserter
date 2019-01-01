@@ -234,7 +234,7 @@ def compareLastModDicts(old,new,epochStart):
    print("updating zip : ", end='', flush=True)
    os.remove(zipToInsertInto)
    os.rename(tmpname, zipToInsertInto)
-   print(epoch()-epochStart)
+   print(round(epoch()-epochStart,6))
 
 
 

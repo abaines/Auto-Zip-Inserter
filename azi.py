@@ -9,6 +9,7 @@ import winsound
 import time
 import glob
 import re
+import zipfile
 
 # GLOBALS # GLOBALS # GLOBALS # GLOBALS # GLOBALS # GLOBALS # GLOBALS # GLOBALS 
 
@@ -88,13 +89,13 @@ history = lastModifiedDictionary(rootFolderToMonitor)
 
 
 
-def fileAdded(filename):
+def fileAdded(zipf,filename):
    print("added",filename)
 
-def fileDeleted(filename):
+def fileDeleted(zipf,filename):
    print("deleted",filename)
 
-def fileModified(filename):
+def fileModified(zipf,filename):
    print("modified",filename)
 
 
@@ -134,22 +135,25 @@ def compareLastModDicts(old,new):
 
    print("one or more changes detected")
 
-   for key in allkeys:
-      # check for new files
-      if key not in oldkeys:
-         fileAdded(key)
-         
-      # check for deleted files
-      if key not in newkeys:
-         fileDeleted(key)
+   with zipfile.ZipFile(zipToInsertInto,'a') as zipf:
+      # zip open
+      
+      for key in allkeys:
+         # check for new files
+         if key not in oldkeys:
+            fileAdded(zipf,key)
+            
+         # check for deleted files
+         if key not in newkeys:
+            fileDeleted(zipf,key)
 
-      # check for modified files
-      if key in newkeys and key in oldkeys:
-         oldModifiedDate = old[key]
-         newModifiedDate = new[key]
-         if oldModifiedDate != newModifiedDate:
-            fileModified(key)
-         
+         # check for modified files
+         if key in newkeys and key in oldkeys:
+            oldModifiedDate = old[key]
+            newModifiedDate = new[key]
+            if oldModifiedDate != newModifiedDate:
+               fileModified(zipf,key)
+
    
 
 

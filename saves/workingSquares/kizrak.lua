@@ -15,36 +15,53 @@ local function setSpeed(event)
 	game.print("Set game speed to " .. parsedSpeed)
 end
 
-if not global.infinity_chests_spawned then
-	global.infinity_chests_spawned = {}
-end
+
 
 local infinity_chests_order = {
-	{"iron-ore"},
-	{"copper-ore"},
-	{"stone"},
-	{"raw-wood"},
-	{"coal"},
-	{"coal"},
-	{"stone"},
-	{"stone"},
-	{"iron-ore"},
-	{"iron-ore"},
-	{"iron-ore"},
-	{"copper-ore"},
-	{"copper-ore"},
-	{"iron-plate"},
-	{"copper-plate"},
-	{"stone-brick"},
-	{"iron-gear-wheel"},
-	{"copper-cable"}
+	"iron-ore",
+	"copper-ore",
+	"stone",
+	"raw-wood",
+	"coal",
+	"coal",
+	"stone",
+	"stone",
+	"iron-ore",
+	"iron-ore",
+	"iron-ore",
+	"copper-ore",
+	"copper-ore",
+	"iron-plate",
+	"copper-plate",
+	"stone-brick",
+	"iron-gear-wheel",
+	"copper-cable"
 }
+
+local function random_infinity_chests()
+	if not global.infinity_chests_spawned then
+		global.infinity_chests_spawned = {}
+	end
+
+	local math_random = math.random
+	local x = math_random(1, #infinity_chests_order)
+	local thing = infinity_chests_order[x]
+	game.print('thing:'..(thing))
+	
+	table.insert(global.infinity_chests_spawned, thing)
+end
 
 
 local function playground(event)
 	game.print("play")
+	
+	--game.print(json.stringify(infinity_chests_order))
+	
+	random_infinity_chests()
+	
+	game.print("json:" .. json.stringify(global.infinity_chests_spawned))
+	
 	game.write_file("global.json",json.stringify(global))
-	game.print(json.stringify(infinity_chests_order))
 end
 
 commands.add_command("speed", "Set game speed", setSpeed)

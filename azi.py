@@ -87,6 +87,42 @@ def lastModifiedDictionary(rootFolder):
 history = lastModifiedDictionary(rootFolderToMonitor)
 
 
+
+def fileAdded(filename):
+   print("added",filename)
+
+def fileDeleted(filename):
+   print("deleted",filename)
+
+def fileModified(filename):
+   print("modified",filename)
+
+
+
+
+def checkAnyTypeOfChange(old,new,allkeys):
+   oldkeys = old.keys()
+   newkeys = new.keys()
+
+   for key in allkeys:
+      # check for new files
+      if key not in oldkeys:
+         return True
+         
+      # check for deleted files
+      if key not in newkeys:
+         return True
+
+      # check for modified files
+      if key in newkeys and key in oldkeys:
+         oldModifiedDate = old[key]
+         newModifiedDate = new[key]
+         if oldModifiedDate != newModifiedDate:
+            return True
+   
+   return False
+
+
 def compareLastModDicts(old,new):
    oldkeys = old.keys()
    newkeys = new.keys()

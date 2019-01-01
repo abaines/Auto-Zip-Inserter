@@ -10,11 +10,14 @@ import time
 import glob
 import re
 import zipfile
+import datetime
+import tempfile
 
 # GLOBALS # GLOBALS # GLOBALS # GLOBALS # GLOBALS # GLOBALS # GLOBALS # GLOBALS 
 
 # control.lua file
 # used to determine root folder to watch
+# factorio related code
 controlLuaFolder = "./saves/workingSquares/control.lua"
 
 # zip to insert changes into
@@ -83,11 +86,34 @@ def lastModifiedDictionary(rootFolder):
 
 
 
+# factorio related code
+# internal global
+zipControlLua = None
+SLASH_CONTROL_LUA = "/control.lua"
+with zipfile.ZipFile(zipToInsertInto,'r') as zipf:
+   for info in zipf.infolist():
+            filename = info.filename
+            if filename.endswith(SLASH_CONTROL_LUA):
+               print('filename      :',filename)
+               if zipControlLua is None:
+                  zipControlLua = filename
+               elif len(filename)<len(zipControlLua):
+                  zipControlLua = filename
+print('zipControlLua :',zipControlLua)
+# internal global
+zipBaseFolder = zipControlLua[:-1*len(SLASH_CONTROL_LUA)]
+print('zipBaseFolder :',zipBaseFolder)
+
+
+
+
+
+
 
 
 history = lastModifiedDictionary(rootFolderToMonitor)
 
-
+LEN_ROOT_FOLDER_NAME = 1+len(rootFolderToMonitor)
 
 def fileAdded(zipf,filename):
    print("added",filename)
@@ -96,7 +122,13 @@ def fileDeleted(zipf,filename):
    print("deleted",filename)
 
 def fileModified(zipf,filename):
-   print("modified",filename)
+   print("modified   :",filename)
+   fileInsideZip = zipBaseFolder+'/'+filename[LEN_ROOT_FOLDER_NAME:]
+   print("inside zip :",fileInsideZip)
+
+
+   zipf.write(filename, fileInsideZip)
+
 
 
 
@@ -105,23 +137,51 @@ def checkAnyTypeOfChange(old,new,allkeys):
    oldkeys = old.keys()
    newkeys = new.keys()
 
+   retlist = []
+
    for key in allkeys:
       # check for new files
       if key not in oldkeys:
-         return True
+         retlist.append(key[LEN_ROOT_FOLDER_NAME:])
          
       # check for deleted files
       if key not in newkeys:
-         return True
+         retlist.append(key[LEN_ROOT_FOLDER_NAME:])
 
       # check for modified files
       if key in newkeys and key in oldkeys:
          oldModifiedDate = old[key]
          newModifiedDate = new[key]
          if oldModifiedDate != newModifiedDate:
-            return True
+            retlist.append(key[LEN_ROOT_FOLDER_NAME:])
    
-   return False
+   return retlist
+
+
+
+def remakeZipWithoutFilenames(zipname, filenames):
+   # https://stackoverflow.com/a/25739108/1676197
+
+   # generate a temp file
+   tmpfd, tmpname = tempfile.mkstemp(dir=os.path.dirname(zipname))
+   os.close(tmpfd)
+
+   print(tmpfd, tmpname)
+
+   # create a temp copy of the archive without filename            
+   with zipfile.ZipFile(zipname, 'r') as zin:
+      with zipfile.ZipFile(tmpname, 'w') as zout:
+         zout.comment = zin.comment # preserve the comment
+         for item in zin.infolist():
+            itemfilename = item.filename
+            if itemfilename not in filenames:
+               zout.writestr(item, zin.read(itemfilename))
+            else:
+               print("skipping:",itemfilename)
+
+   # replace with the temp archive
+   os.remove(zipname)
+   os.rename(tmpname, zipname)
 
 
 def compareLastModDicts(old,new):
@@ -130,12 +190,19 @@ def compareLastModDicts(old,new):
 
    allkeys = list(set().union(oldkeys, newkeys))
 
-   if not checkAnyTypeOfChange(old,new,allkeys):
+   catoc = checkAnyTypeOfChange(old,new,allkeys)
+
+   if len(catoc) is 0:
       return
 
-   print("one or more changes detected")
+   for idx, item in enumerate(catoc):
+      catoc[idx] = zipBaseFolder+'/'+catoc[idx]
 
-   with zipfile.ZipFile(zipToInsertInto,'a') as zipf:
+   print("one or more changes detected",catoc)
+
+   remakeZipWithoutFilenames(zipToInsertInto,catoc)
+
+   with zipfile.ZipFile(zipToInsertInto,'a', compression=ZipFile.ZIP_DEFLATED) as zipf:
       # zip open
       
       for key in allkeys:

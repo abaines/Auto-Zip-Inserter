@@ -15,6 +15,11 @@ local function setSpeed(event)
 	game.print("Set game speed to " .. parsedSpeed)
 end
 
+local function print(message, color)
+	if not color then color={r = 1, g = 1, b = 1} end
+	game.print(message, color)
+end
+
 
 
 local infinity_chests_order = {
@@ -23,30 +28,43 @@ local infinity_chests_order = {
 	"stone",
 	"raw-wood",
 	"coal",
-	"coal",
-	"stone",
-	"stone",
-	"iron-ore",
-	"iron-ore",
-	"iron-ore",
-	"copper-ore",
-	"copper-ore",
 	"iron-plate",
 	"copper-plate",
 	"stone-brick",
 	"iron-gear-wheel",
 	"copper-cable"
+	-- anything used to make science
+	-- rail?
 }
+
+local function infinity_chest(index)
+	--index2 = math.fmod(index,#infinity_chests_order)
+	a = index-1
+	b = #infinity_chests_order+0
+	index2 = math.floor( a - math.floor(a/b)*b )+1
+	
+	thing = infinity_chests_order[index2]
+	print( index .. ' ' .. index2 .. ' ' .. (thing or "!"))
+	return thing
+end
 
 local function random_infinity_chests()
 	if not global.infinity_chests_spawned then
 		global.infinity_chests_spawned = {}
 	end
 
+	--[[
 	local math_random = math.random
 	local x = math_random(1, #infinity_chests_order)
 	local thing = infinity_chests_order[x]
 	game.print('thing:'..(thing))
+	]]--
+	
+	print("#infinity_chests_order "..#infinity_chests_order)
+	
+	for i=1,33,1 do
+		infinity_chest(i)
+	end
 	
 	table.insert(global.infinity_chests_spawned, thing)
 end
@@ -59,7 +77,7 @@ local function playground(event)
 	
 	random_infinity_chests()
 	
-	game.print("json:" .. json.stringify(global.infinity_chests_spawned))
+	--game.print("json:" .. json.stringify(global.infinity_chests_spawned))
 	
 	game.write_file("global.json",json.stringify(global))
 end

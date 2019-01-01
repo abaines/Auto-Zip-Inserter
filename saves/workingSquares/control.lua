@@ -19,6 +19,8 @@ require "maps.labyrinth"
 --require "maps.spaghettorio"
 -----------------------------
 
+require "kizrak"
+
 local Event = require 'utils.event'
 
 local function player_created(event)	

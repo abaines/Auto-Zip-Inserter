@@ -93,11 +93,27 @@ def compareLastModDicts(old,new):
 
    allkeys = list(set().union(oldkeys, newkeys))
 
+   if not checkAnyTypeOfChange(old,new,allkeys):
+      return
+
+   print("one or more changes detected")
+
    for key in allkeys:
+      # check for new files
       if key not in oldkeys:
-         print("added",key)
+         fileAdded(key)
+         
+      # check for deleted files
       if key not in newkeys:
-         print("removed",key)
+         fileDeleted(key)
+
+      # check for modified files
+      if key in newkeys and key in oldkeys:
+         oldModifiedDate = old[key]
+         newModifiedDate = new[key]
+         if oldModifiedDate != newModifiedDate:
+            fileModified(key)
+         
    
 
 
@@ -105,10 +121,11 @@ def compareLastModDicts(old,new):
 def scan():
    global history
    print('.', end='', flush=True)
+   
    newLMD = lastModifiedDictionary(rootFolderToMonitor)
    compareLastModDicts(history,newLMD)
 
-
+   # update history with new last modified dictionary
    history = newLMD
 
 

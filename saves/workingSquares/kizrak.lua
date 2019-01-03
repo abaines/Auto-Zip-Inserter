@@ -47,18 +47,86 @@ local function infinity_chest(index)
 	return chest
 end
 
-local function random_infinity_chests()
+local bag_size = 3
+
+local function short_list_of_chests()
+
+	function clone(t) -- deep-copy a table
+		-- https://gist.github.com/MihailJP/3931841
+		if type(t) ~= "table" then return t end
+		
+		local meta = getmetatable(t)
+		local target = {}
+
+		for k, v in pairs(t) do
+			if type(v) == "table" then
+				target[k] = clone(v)
+			else
+				target[k] = v
+			end
+		end
+		setmetatable(target, meta)
+		return target
+	end
+	
+	local function index_of(tab, val)
+		for index, value in ipairs(tab) do
+			if value == val then
+				return index
+			end
+		end
+	end
+	
+	copySpawned = clone(global.infinity_chests_spawned)
+
+
+	index = 1
+	short_list = {}
+
+	while true do
+		chest_i = infinity_chest(index)
+		
+		local search_index = index_of(copySpawned,chest_i)
+		
+		if search_index then
+			--print('already have : '..chest_i..' @ '..search_index)
+			table.remove(copySpawned, search_index)
+		else
+			--print('adding : '..chest_i)
+			table.insert(short_list,chest_i)
+			if #short_list>=bag_size then
+				return short_list
+			end
+		end
+		
+		if index>1000 then
+			error()
+		end
+		
+		index = 1 + index
+	end
+
+end
+
+local function random_infinity_chest()
 	if not global.infinity_chests_spawned then
 		global.infinity_chests_spawned = {}
 	end
 
-	print("#infinity_chests_order "..#infinity_chests_order)
+	short_list = short_list_of_chests()
+	--print(json.stringify(short_list_of_chests()))
 	
-	for i=1,22,1 do
-		game.print(i.. '='..infinity_chest(i) )
-	end
+	r = math.random(#short_list)
+	--print("random : " .. r)
 	
-	table.insert(global.infinity_chests_spawned, thing)
+	--print(short_list[r])
+	
+	chest = short_list[r]
+	
+	table.insert(global.infinity_chests_spawned,chest)
+	
+	return chest
+	--table.insert(global.infinity_chests_spawned, thing)
 end
 
 
@@ -67,7 +135,10 @@ local function playground(event)
 	
 	--game.print(json.stringify(infinity_chests_order))
 	
-	random_infinity_chests()
+	print("#infinity_chests_order "..#infinity_chests_order)
+	for i=1,24,1 do
+		print(i..'='..random_infinity_chest())
+	end
 	
 	--game.print("json:" .. json.stringify(global.infinity_chests_spawned))
 	

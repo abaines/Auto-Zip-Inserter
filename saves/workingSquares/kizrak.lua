@@ -38,14 +38,13 @@ local infinity_chests_order = {
 }
 
 local function infinity_chest(index)
-	--index2 = math.fmod(index,#infinity_chests_order)
-	a = index-1
-	b = #infinity_chests_order+0
-	index2 = math.floor( a - math.floor(a/b)*b )+1
+	local a = index-1
+	local b = #infinity_chests_order
+	local index2 = math.floor( a - math.floor(a/b)*b )+1
 	
-	thing = infinity_chests_order[index2]
-	print( index .. ' ' .. index2 .. ' ' .. (thing or "!"))
-	return thing
+	local chest = infinity_chests_order[index2] or nil
+	--print( index .. ' ' .. index2 .. ' ' .. chest)
+	return chest
 end
 
 local function random_infinity_chests()
@@ -53,17 +52,10 @@ local function random_infinity_chests()
 		global.infinity_chests_spawned = {}
 	end
 
-	--[[
-	local math_random = math.random
-	local x = math_random(1, #infinity_chests_order)
-	local thing = infinity_chests_order[x]
-	game.print('thing:'..(thing))
-	]]--
-	
 	print("#infinity_chests_order "..#infinity_chests_order)
 	
-	for i=1,33,1 do
-		infinity_chest(i)
+	for i=1,22,1 do
+		game.print(i.. '='..infinity_chest(i) )
 	end
 	
 	table.insert(global.infinity_chests_spawned, thing)

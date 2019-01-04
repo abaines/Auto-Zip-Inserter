@@ -7,6 +7,7 @@ local simplex_noise = require 'utils.simplex_noise'
 simplex_noise = simplex_noise.d2
 local event = require 'utils.event'
 local unique_rooms = require "maps.labyrinth_unique_rooms"
+local kizrak = require 'kizrak'
 
 local labyrinth_difficulty_curve = 500  --- How much size the labyrinth needs to have the highest difficulty.
 
@@ -101,7 +102,26 @@ worm_raffle[7] = {"medium-worm-turret", "medium-worm-turret", "medium-worm-turre
 worm_raffle[8] = {"medium-worm-turret", "medium-worm-turret", "medium-worm-turret", "medium-worm-turret", "big-worm-turret", "big-worm-turret"}
 worm_raffle[9] = {"medium-worm-turret", "medium-worm-turret", "medium-worm-turret", "big-worm-turret", "big-worm-turret", "big-worm-turret"}
 worm_raffle[10] = {"medium-worm-turret", "medium-worm-turret", "medium-worm-turret", "big-worm-turret", "big-worm-turret", "big-worm-turret"}
-local rock_raffle = {"sand-rock-big","sand-rock-big","sand-rock-big","rock-big","rock-big","rock-big","rock-big","rock-big","rock-big","rock-big","rock-big","rock-big","rock-big","rock-big","rock-huge"}
+local rock_raffle = {
+"sand-rock-big",
+"sand-rock-big",
+"sand-rock-big",
+"rock-big",
+"rock-big",
+"rock-big",
+"rock-big",
+"rock-big",
+"rock-big",
+"rock-big",
+"rock-big",
+"rock-big",
+"rock-big",
+"rock-big",
+"rock-huge",
+"rock-huge",
+"rock-huge",
+"rock-huge",
+}
 local ore_spawn_raffle = {"iron-ore","iron-ore","iron-ore","copper-ore","copper-ore","copper-ore","coal","coal","stone","stone","uranium-ore","crude-oil"}
 local room_layouts = {"quad_rocks", "single_center_rock", "three_horizontal_rocks", "three_vertical_rocks", "tree_and_lake", "forest", "forest_fence"}
 local biter_raffle = {
@@ -630,30 +650,17 @@ local function treasure_chest(position, surface)
 end
 
 local function spawn_infinity_chest(pos, surface)
-	local math_random = math.random
-	local infinity_chests = {		
-		{"raw-wood", math_random(1,3)},
-		{"coal", 1},
-		{"coal", 1},
-		{"stone", math_random(1,3)},
-		{"stone", math_random(1,3)},
-		{"iron-ore", 1},
-		{"iron-ore", 1},
-		{"iron-ore", 1},
-		{"copper-ore", 1},
-		{"copper-ore", 1},	
-		{"iron-plate", 1},
-		{"copper-plate", 1},
-		{"stone-brick", 1},
-		{"iron-gear-wheel", 1},
-		{"copper-cable", math_random(1,4)}
-	}
-	local x = math_random(1, #infinity_chests)
+	
+	local bag_infinity_chest = kizrak.random_infinity_chest()
+	
 	local e = surface.create_entity {name = "infinity-chest", position = pos, force = "player"}
-	e.set_infinity_filter(1, {name = infinity_chests[x][1], count = infinity_chests[x][2]})
+	e.set_infinity_filter(1, {name = bag_infinity_chest, count = 200})
+	
 	e.minable = false
 	e.destructible = false
 	e.operable = false
+	
+	game.print("Kizrak has rewarded you with amazing chest of "..bag_infinity_chest,{r=255,g=102,b=0})
 end
 
 

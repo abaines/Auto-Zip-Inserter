@@ -1,12 +1,14 @@
 -- Kizrak
 
+local Kizrak = {}
+
 local json = require 'utils.json'
 local Event = require 'utils.event'
 
 local function on_player_changed_position(event)
 	local player = game.players[event.player_index]
 
-	player.print("Kizrak was here", {r = 255, g = 102, b = 0})
+	--player.print("Kizrak was here", {r = 255, g = 102, b = 0})
 end
 
 local function setSpeed(event)
@@ -108,7 +110,7 @@ local function short_list_of_chests()
 
 end
 
-local function random_infinity_chest()
+function Kizrak.random_infinity_chest()
 	if not global.infinity_chests_spawned then
 		global.infinity_chests_spawned = {}
 	end
@@ -136,9 +138,7 @@ local function playground(event)
 	--game.print(json.stringify(infinity_chests_order))
 	
 	print("#infinity_chests_order "..#infinity_chests_order)
-	for i=1,24,1 do
-		print(i..'='..random_infinity_chest())
-	end
+	print("version : " .. "0.0.0.1")
 	
 	--game.print("json:" .. json.stringify(global.infinity_chests_spawned))
 	
@@ -150,3 +150,5 @@ commands.add_command("speed", "Set game speed", setSpeed)
 commands.add_command("play", "Playground",playground)
 
 Event.add(defines.events.on_player_changed_position, on_player_changed_position)
+
+return Kizrak

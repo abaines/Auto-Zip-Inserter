@@ -32,7 +32,7 @@ local infinity_chests_order = {
 	"copper-plate",
 	"stone-brick",
 	"iron-gear-wheel",
-	"copper-cable"
+	"copper-cable",
 	-- anything used to make science
 	-- rail?
 }

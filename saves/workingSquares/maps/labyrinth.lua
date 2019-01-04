@@ -623,9 +623,9 @@ local function treasure_chest(position, surface)
 		{{name = "gate", count = math_random(25,50)}, weight = 1, evolution_min = 0.1, evolution_max = 0.5},
 		{{name = "storage-tank", count = math_random(8,16)}, weight = 3, evolution_min = 0.3, evolution_max = 0.6},
 		{{name = "train-stop", count = math_random(2,4)}, weight = 1, evolution_min = 0.2, evolution_max = 0.7},
-		{{name = "express-loader", count = math_random(2,4)}, weight = 1, evolution_min = 0.5, evolution_max = 1},
-		{{name = "fast-loader", count = math_random(2,4)}, weight = 1, evolution_min = 0.2, evolution_max = 0.7},
-		{{name = "loader", count = math_random(2,4)}, weight = 1, evolution_min = 0.0, evolution_max = 0.5},
+		{{name = "express-loader", count = math_random(3,5)}, weight = 7, evolution_min = 0.5, evolution_max = 1},
+		{{name = "fast-loader", count = math_random(3,5)}, weight = 7, evolution_min = 0.2, evolution_max = 1},
+		{{name = "loader", count = math_random(3,5)}, weight = 7, evolution_min = 0.0, evolution_max = 1},
 		{{name = "lab", count = math_random(4,8)}, weight = 2, evolution_min = 0.0, evolution_max = 0.1},
 	
 		--{{name = "roboport", count = math_random(2,4)}, weight = 2, evolution_min = 0.6, evolution_max = 1},
@@ -910,7 +910,9 @@ end
 
 local inserters = {"inserter", "long-handed-inserter", "burner-inserter", "fast-inserter", "filter-inserter", "stack-filter-inserter", "stack-inserter"}
 local loaders = {"loader", "fast-loader", "express-loader"}
+local turret_limit_area = {left_top = {-32767, -32767}, right_bottom = {32767, -64}}
 local function on_built_entity(event)
+	--[[
 	for _, e in pairs(inserters) do
 		if e == event.created_entity.name then			
 			local surface = event.created_entity.surface
@@ -960,14 +962,19 @@ local function on_built_entity(event)
 			end
 		end
 	end
+	]]--
 		
 	local name = event.created_entity.name
-	if name == "flamethrower-turret" or name == "laser-turret" then --or name == "gun-turret" then
-		if event.created_entity.position.y < 0 then 		
-			event.created_entity.die("enemy")
-			if event.player_index then
-				local player = game.players[event.player_index]
-				player.print("The laser and flamethrower-turrets seem to be malfunctioning in this place.", { r=0.75, g=0.0, b=0.0})
+	if name == "flamethrower-turret" or name == "laser-turret" then
+		if event.created_entity.position.y < -64 then
+			local surface = event.created_entity.surface
+			local found = surface.find_entities_filtered{area = turret_limit_area, name = name}
+			if #found > global.labyrinth_size then
+				event.created_entity.die("enemy")
+				if event.player_index then
+					local player = game.players[event.player_index]
+					player.print("There seems to be a limit on the number of laser and flamethrower-turrets there can be in this place.", { r=0.75, g=0.0, b=0.0})
+				end
 			end
 		end
 	end

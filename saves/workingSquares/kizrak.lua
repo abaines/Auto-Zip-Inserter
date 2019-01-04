@@ -28,13 +28,57 @@ local infinity_chests_order = {
 	"iron-ore",
 	"copper-ore",
 	"stone",
-	"raw-wood",
-	"coal",
+	"wood",
 	"iron-plate",
 	"copper-plate",
 	"stone-brick",
 	"iron-gear-wheel",
 	"copper-cable",
+	-- Green sci
+	"transport-belt",
+	"electronic-circuit",
+	"inserter",
+	"coal",
+	-- Blue Sci
+	"firearm-magazine",
+	"shotgun-shell",
+	"plastic-bar",
+	"advanced-circuit",
+	"grenade",
+	"steel-plate",
+	"piercing-rounds-magazine",
+	"piercing-shotgun-shell",
+	"rail",
+	"pipe",
+	"engine-unit",
+	"gun-turret",
+	"electric-mining-drill",
+	"uranium-ore",
+	"radar",
+	"solid-fuel",
+	"flamethrower-ammo",
+	"cannon-shell",
+	"explosives",
+	"rocket",
+	"defender-capsule",
+	-- Purple Sci
+	"electric-engine-unit",
+	"stone-brick",
+	"electric-furnace",
+	-- "Rocket Fuel"
+	"explosive-cannon-shell",
+	"rocket-fuel",
+	-- Yellow Sci
+	"sulfur",
+	"battery",
+	"nuclear-fuel",
+	"processing-unit",
+	"speed-module",
+	-- "Robots"
+	"low-density-structure",
+	"productivity-module",
+	"flying-robot-frame",
+	"landfill",
 	-- anything used to make science
 	-- rail?
 }
@@ -138,7 +182,7 @@ local function playground(event)
 	--game.print(json.stringify(infinity_chests_order))
 	
 	print("#infinity_chests_order "..#infinity_chests_order)
-	print("version : " .. "0.0.0.1")
+	print("version : " .. "0.0.0.2")
 	
 	--game.print("json:" .. json.stringify(global.infinity_chests_spawned))
 	

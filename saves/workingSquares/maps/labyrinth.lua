@@ -910,7 +910,6 @@ end
 
 local inserters = {"inserter", "long-handed-inserter", "burner-inserter", "fast-inserter", "filter-inserter", "stack-filter-inserter", "stack-inserter"}
 local loaders = {"loader", "fast-loader", "express-loader"}
-local turret_limit_area = {left_top = {-32767, -32767}, right_bottom = {32767, -64}}
 local function on_built_entity(event)
 	--[[
 	for _, e in pairs(inserters) do
@@ -965,11 +964,20 @@ local function on_built_entity(event)
 	]]--
 		
 	local name = event.created_entity.name
+	local turret_y_limit = -64
 	if name == "flamethrower-turret" or name == "laser-turret" then
-		if event.created_entity.position.y < -64 then
+		if event.created_entity.position.y < turret_y_limit then
 			local surface = event.created_entity.surface
-			local found = surface.find_entities_filtered{area = turret_limit_area, name = name}
-			if #found > global.labyrinth_size then
+			local found = surface.find_entities_filtered{name = name}
+
+			local count = 0
+			for index,value in ipairs(found) do
+				if value.position.y < turret_y_limit then
+					count = 1 + count
+				end
+			end
+
+			if count > global.labyrinth_size then
 				event.created_entity.die("enemy")
 				if event.player_index then
 					local player = game.players[event.player_index]

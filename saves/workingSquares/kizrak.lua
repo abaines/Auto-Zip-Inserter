@@ -11,6 +11,18 @@ local function on_player_changed_position(event)
 	--player.print("Kizrak was here", {r = 255, g = 102, b = 0})
 end
 
+local function on_player_changed_position2(event)
+	local player = game.players[event.player_index]
+
+	player.print("Kizrak was here 2", {r = 255, g = 102, b = 0})
+end
+
+local function on_player_changed_position3(event)
+	local player = game.players[event.player_index]
+
+	player.print("Kizrak was here 3", {r = 255, g = 102, b = 0})
+end
+
 local function setSpeed(event)
 	parsedSpeed = tonumber(event.parameter)
 	game.speed = parsedSpeed
@@ -193,5 +205,9 @@ commands.add_command("speed", "Set game speed", setSpeed)
 commands.add_command("next", "next",_next)
 
 Event.add(defines.events.on_player_changed_position, on_player_changed_position)
+
+script.on_event(defines.events.on_player_changed_position,on_player_changed_position2)
+
+script.on_event(defines.events.on_player_changed_position,on_player_changed_position3)
 
 return Kizrak

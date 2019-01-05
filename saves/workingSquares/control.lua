@@ -1,3 +1,4 @@
+require "hijack"
 require "utils.utils"
 require "utils.corpse_util"
 require "bot"

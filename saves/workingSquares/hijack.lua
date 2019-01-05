@@ -74,6 +74,10 @@ local function print_on_event_history(event)
 	
 	player.print("table_event #"..#table_event..'  '..count)
 	player.print(json.stringify(table_event))
+	player.print(serpent.block(printHelper))
+	
+	log(json.stringify(table_event))
+	log(serpent.block(printHelper))
 	
 	player.print("table_init #"..#table_init)
 end

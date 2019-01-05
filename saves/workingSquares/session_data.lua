@@ -1,6 +1,4 @@
-local index = {
-"blkCUwDfFaRxezkA", "PEVkYcsbVwnnKWKm", "RmApKqaHBnDdjlUf", "eovuYGvdICGhruuU", "xFbpVDlWSNPmGqQf", "lktJcRqsleypbFqW", "MYmwDgcTBIOgADTD", "ArNWzzewJtYSbxVw", "oYQcJazDfTUtymDW", "pFvIWAWWsePfBElD", "qZIGmkBOGbGUrzGQ", "ULqnxPRoVXgYMnDb", "rJALXVwjKAnMJznl", "CKYAXOTPJxgSNaeW"
-}
+local index = {}
 
 local data = {}
 for _, i in pairs(index) do

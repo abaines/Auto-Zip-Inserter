@@ -21,15 +21,19 @@ local function doAllEvents(event)
 	end
 end
 
-script.on_event = function(event_id, _function)
-	if not table_event[event_id] then
-		table_event[event_id] = {}
-	end
-	
-	table.insert(on_event_history,event_id)
-	table.insert(table_event[event_id],_function)
+script.on_event = function(event_ids, _function)
+	event_ids = (type(event_ids) == "table" and event_ids) or {event_ids}
 
-	old_script_on_event(event_id,doAllEvents);
+	for _, event_id in pairs(event_ids) do
+		if not table_event[event_id] then
+			table_event[event_id] = {}
+		end
+		
+		table.insert(on_event_history,event_id)
+		table.insert(table_event[event_id],_function)
+
+		old_script_on_event(event_id,doAllEvents);
+	end
 end
 
 
@@ -69,7 +73,7 @@ local function print_on_event_history(event)
 	end
 	
 	player.print("table_event #"..#table_event..'  '..count)
-	player.print(json.stringify(printHelper))
+	player.print(json.stringify(table_event))
 	
 	player.print("table_init #"..#table_init)
 end

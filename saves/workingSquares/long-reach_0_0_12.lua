@@ -32,6 +32,10 @@ script.on_init(function ()
 	apply_long_reach_settings()	
 end)
 
+script.on_event(defines.events.on_player_joined_game,apply_long_reach_settings)
+script.on_event(defines.events.on_player_created,apply_long_reach_settings)
+
+--- this probably doesn't get called in softmods
 script.on_configuration_changed(function (data)
 	apply_long_reach_settings()		
 end)
@@ -42,14 +46,9 @@ end)
 
 
 function apply_long_reach_settings()
-	game.forces["player"].character_build_distance_bonus = 125
-	game.forces["player"].character_reach_distance_bonus = 125
-	
-	for index,player in pairs(game.players) do
-		player.character_build_distance_bonus = 125
-		player.character_reach_distance_bonus = 125
-		game.print(index .. ' ' .. player.name,{g=255})
-	end
+	game.forces.player.character_build_distance_bonus = 125
+	game.forces.player.character_reach_distance_bonus = 125
+	game.forces.player.character_resource_reach_distance_bonus = 2
 	
 	game.print("apply_long_reach_settings",{r=255,g=102})
 end

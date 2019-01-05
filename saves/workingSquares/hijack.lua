@@ -1,5 +1,7 @@
 -- Kizrak
 
+-- special thanks to Kovus, Thuro, & Diablo-D3 for making this happen
+
 local json = require 'utils.json'
 
 local old_script_on_event = script.on_event
@@ -27,9 +29,11 @@ script.on_event = function(event_id, _function)
 	old_script_on_event(event_id,doAllEvents);
 end
 
-local function print_on_event_history()
-	game.print("on_event_history #"..#on_event_history)
-	game.print(json.stringify(on_event_history))
+local function print_on_event_history(event)
+	local player = game.players[event.player_index]
+	
+	player.print("on_event_history #"..#on_event_history)
+	player.print(json.stringify(on_event_history))
 	
 	local printHelper = {}
 	local count = 0
@@ -38,8 +42,8 @@ local function print_on_event_history()
 		count = #value + count
 	end
 	
-	game.print("table_event #"..#table_event..'  '..count)
-	game.print(json.stringify(printHelper))
+	player.print("table_event #"..#table_event..'  '..count)
+	player.print(json.stringify(printHelper))
 end
 
 commands.add_command("history", "history", print_on_event_history)

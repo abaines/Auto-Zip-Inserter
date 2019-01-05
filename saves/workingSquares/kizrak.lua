@@ -8,7 +8,7 @@ local Event = require 'utils.event'
 local function on_player_changed_position(event)
 	local player = game.players[event.player_index]
 
-	--player.print("Kizrak was here", {r = 255, g = 102, b = 0})
+	player.print("Kizrak was here 1", {r = 255, g = 102, b = 0})
 end
 
 local function on_player_changed_position2(event)

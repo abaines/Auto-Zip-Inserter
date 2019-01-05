@@ -6,29 +6,22 @@ local old_script_on_event = script.on_event
 
 local table_event = {}
 
-if not global.on_event_history then
-	global.on_event_history = {}
+if not on_event_history then
+	on_event_history = {}
 end
 
 local function doAllEvents(event)
-
 	name = event.name
-	
-	--game.print(name)
 
 	for index,value in ipairs(table_event[name]) do
-	
 		value(event)
-	
 	end
-	
 
 end
 
-
 script.on_event = function(event_id, _function)
 
-	table.insert(global.on_event_history,event_id)
+	table.insert(on_event_history,event_id)
 
 	if not table_event[event_id] then
 		table_event[event_id] = {}
@@ -41,7 +34,20 @@ script.on_event = function(event_id, _function)
 end
 
 local function print_on_event_history()
-	game.print(global.on_event_history)
+	game.print("on_event_history")
+	game.print(#on_event_history)
+	game.print(json.stringify(on_event_history))
+	
+	game.print("table_event")
+	game.print(#table_event)
+	local printHelper = {}
+	local count = 0
+	for key,value in pairs(table_event) do
+		printHelper[key] = #value
+		count = #value + count
+	end
+	game.print(json.stringify(printHelper))
+	game.print('count'..count)
 end
 
 

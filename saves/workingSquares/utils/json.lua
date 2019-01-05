@@ -140,6 +140,8 @@ function json.stringify(obj, as_key)
     return tostring(obj)
   elseif kind == 'nil' then
     return 'null'
+  elseif kind == 'function' then
+    return '$function'
   else
     error('Unjsonifiable type: ' .. kind .. '.')
   end

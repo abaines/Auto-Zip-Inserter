@@ -63,7 +63,6 @@ local infinity_chests_order = {
 	"defender-capsule",
 	-- Purple Sci
 	"electric-engine-unit",
-	"stone-brick",
 	"electric-furnace",
 	-- "Rocket Fuel"
 	"explosive-cannon-shell",
@@ -96,6 +95,9 @@ end
 local bag_size = 3
 
 local function short_list_of_chests()
+	if not global.infinity_chests_spawned then
+		global.infinity_chests_spawned = {}
+	end
 
 	function clone(t) -- deep-copy a table
 		-- https://gist.github.com/MihailJP/3931841
@@ -155,10 +157,6 @@ local function short_list_of_chests()
 end
 
 function Kizrak.random_infinity_chest()
-	if not global.infinity_chests_spawned then
-		global.infinity_chests_spawned = {}
-	end
-
 	short_list = short_list_of_chests()
 	--print(json.stringify(short_list_of_chests()))
 	
@@ -176,22 +174,23 @@ function Kizrak.random_infinity_chest()
 end
 
 
-local function playground(event)
-	game.print("play")
+local function _next(event)
+	local player = game.players[event.player_index]
 	
-	--game.print(json.stringify(infinity_chests_order))
+	player.print("version : " .. "0.0.0.3")
 	
-	print("#infinity_chests_order "..#infinity_chests_order)
-	print("version : " .. "0.0.0.2")
+	player.print(json.stringify(global.infinity_chests_spawned),{b=255})
 	
-	--game.print("json:" .. json.stringify(global.infinity_chests_spawned))
+	short_list = short_list_of_chests()
+	
+	player.print(json.stringify(short_list),{g=255})
 	
 	game.write_file("global.json",json.stringify(global))
 end
 
 commands.add_command("speed", "Set game speed", setSpeed)
 
-commands.add_command("play", "Playground",playground)
+commands.add_command("next", "next",_next)
 
 Event.add(defines.events.on_player_changed_position, on_player_changed_position)
 

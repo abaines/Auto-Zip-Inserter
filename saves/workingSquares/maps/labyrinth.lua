@@ -120,7 +120,6 @@ local rock_raffle = {
 "rock-huge",
 "rock-huge",
 "rock-huge",
-"rock-huge",
 }
 local ore_spawn_raffle = {"iron-ore","iron-ore","iron-ore","copper-ore","copper-ore","copper-ore","coal","coal","stone","stone","uranium-ore","crude-oil"}
 local room_layouts = {"quad_rocks", "single_center_rock", "three_horizontal_rocks", "three_vertical_rocks", "tree_and_lake", "forest", "forest_fence"}

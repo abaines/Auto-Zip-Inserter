@@ -2,6 +2,8 @@
 
 https://github.com/Geend/long-reach
 
+authors: James Aguilar, Torben Voltmer
+
 The MIT License (MIT)
 
 Copyright (c) 2015 James Aguilar
@@ -44,8 +46,8 @@ function apply_long_reach_settings()
 	local default_action_distance = 6
 	
 	
-	game.forces["player"].character_build_distance_bonus = settings["long-reach-build-distance"]["value"] - default_action_distance
-	game.forces["player"].character_reach_distance_bonus = settings["long-reach-reach-distance"]["value"] - default_action_distance
+	game.forces["player"].character_build_distance_bonus = 125 - default_action_distance
+	game.forces["player"].character_reach_distance_bonus = 125 - default_action_distance
 	
 end
 

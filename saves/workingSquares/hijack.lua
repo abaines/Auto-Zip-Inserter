@@ -4,6 +4,9 @@
 
 local json = require 'utils.json'
 
+
+-- script.on_event -- script.on_event -- script.on_event -- script.on_event 
+
 local old_script_on_event = script.on_event
 
 local table_event = {}
@@ -29,6 +32,29 @@ script.on_event = function(event_id, _function)
 	old_script_on_event(event_id,doAllEvents);
 end
 
+
+-- script.on_init -- script.on_init -- script.on_init -- script.on_init 
+
+local old_script_on_init = script.on_init
+
+local table_init = {}
+
+local function doAllInits(event)
+	for index,value in ipairs(table_init) do
+		value(event)
+	end
+end
+
+script.on_init(doAllInits)
+
+script.on_init = function(_function)
+	table.insert(table_init,_function)
+end
+
+
+
+-- history command -- history command -- history command -- history command 
+
 local function print_on_event_history(event)
 	local player = game.players[event.player_index]
 	
@@ -44,6 +70,8 @@ local function print_on_event_history(event)
 	
 	player.print("table_event #"..#table_event..'  '..count)
 	player.print(json.stringify(printHelper))
+	
+	player.print("table_init #"..#table_init)
 end
 
 commands.add_command("history", "history", print_on_event_history)

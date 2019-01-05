@@ -8,7 +8,7 @@ require "group"
 require "player_list"
 require "poll"
 require "score"
-require "long-reach_0_0_12"
+require "long-reach"
 
 --require "maps.tools.cheat_mode"
 

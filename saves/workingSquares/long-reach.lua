@@ -28,6 +28,8 @@ SOFTWARE.
 
 ]]--
 
+-- from version: 0.0.12
+
 script.on_init(function ()
 	apply_long_reach_settings()
 end)
@@ -46,5 +48,6 @@ function apply_long_reach_settings()
 	game.forces.player.character_resource_reach_distance_bonus = 6
 	
 	game.print("apply_long_reach_settings",{r=255,g=102})
+	log("apply_long_reach_settings")
 end
 

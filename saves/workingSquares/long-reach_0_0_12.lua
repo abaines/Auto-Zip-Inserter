@@ -42,12 +42,15 @@ end)
 
 
 function apply_long_reach_settings()
-	local settings = settings.global
-	local default_action_distance = 6
+	game.forces["player"].character_build_distance_bonus = 125
+	game.forces["player"].character_reach_distance_bonus = 125
 	
+	for index,player in pairs(game.players) do
+		player.character_build_distance_bonus = 125
+		player.character_reach_distance_bonus = 125
+		game.print(index .. ' ' .. player.name,{g=255})
+	end
 	
-	game.forces["player"].character_build_distance_bonus = 125 - default_action_distance
-	game.forces["player"].character_reach_distance_bonus = 125 - default_action_distance
-	
+	game.print("apply_long_reach_settings",{r=255,g=102})
 end
 

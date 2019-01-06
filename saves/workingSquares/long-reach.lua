@@ -46,6 +46,8 @@ function apply_long_reach_settings()
 	game.forces.player.character_build_distance_bonus = 125
 	game.forces.player.character_reach_distance_bonus = 125
 	game.forces.player.character_resource_reach_distance_bonus = 6
+	game.forces.player.character_inventory_slots_bonus = 70
+	game.forces.player.character_item_pickup_distance_bonus  = 6
 	
 	game.print("apply_long_reach_settings",{r=255,g=102})
 	log("apply_long_reach_settings")

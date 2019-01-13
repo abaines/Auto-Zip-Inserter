@@ -49,6 +49,12 @@ function apply_long_reach_settings()
 	game.forces.player.character_inventory_slots_bonus = 70
 	game.forces.player.character_item_pickup_distance_bonus  = 6
 	
+	-- /silent-command
+	game.player.force.technologies['engine'].researched=true
+	game.player.force.technologies['railway'].researched=true
+	game.player.force.technologies['automated-rail-transportation'].researched=true
+	game.player.force.technologies['rail-signals'].researched=true
+	
 	game.print("apply_long_reach_settings",{r=255,g=102})
 	log("apply_long_reach_settings")
 end

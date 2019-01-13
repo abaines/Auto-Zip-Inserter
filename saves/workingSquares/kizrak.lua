@@ -29,10 +29,10 @@ local infinity_chests_order = {
 	-- Blue Sci
 	"firearm-magazine",
 	"shotgun-shell",
+	"steel-plate",
 	"plastic-bar",
 	"advanced-circuit",
 	"grenade",
-	"steel-plate",
 	"piercing-rounds-magazine",
 	"piercing-shotgun-shell",
 	"rail",

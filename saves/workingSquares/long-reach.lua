@@ -45,15 +45,19 @@ end)
 function apply_long_reach_settings()
 	game.forces.player.character_build_distance_bonus = 125
 	game.forces.player.character_reach_distance_bonus = 125
-	game.forces.player.character_resource_reach_distance_bonus = 6
-	game.forces.player.character_inventory_slots_bonus = 70
-	game.forces.player.character_item_pickup_distance_bonus  = 6
+	game.forces.player.character_resource_reach_distance_bonus = 7
+	game.forces.player.character_inventory_slots_bonus = 80
+	game.forces.player.character_item_pickup_distance_bonus = 7
 	
 	-- /silent-command
 	game.player.force.technologies['engine'].researched=true
 	game.player.force.technologies['railway'].researched=true
 	game.player.force.technologies['automated-rail-transportation'].researched=true
-	game.player.force.technologies['rail-signals'].researched=true
+	--game.player.force.technologies['rail-signals'].researched=true
+	
+	for i, player in pairs(game.players) do
+		player.game_view_settings.show_rail_block_visualisation = true
+	end
 	
 	game.print("apply_long_reach_settings",{r=255,g=102})
 	log("apply_long_reach_settings")

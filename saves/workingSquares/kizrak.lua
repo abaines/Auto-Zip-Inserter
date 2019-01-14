@@ -154,7 +154,7 @@ end
 local function _next(event)
 	local player = game.players[event.player_index]
 	
-	player.print("version : " .. "0.0.0.4")
+	player.print("version : " .. "0.0.0.5")
 	
 	player.print(json.stringify(global.infinity_chests_spawned),{b=255})
 	

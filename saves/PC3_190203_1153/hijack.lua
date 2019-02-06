@@ -2,8 +2,6 @@
 
 -- special thanks to Kovus, Thuro, & Diablo-D3 for making this happen
 
-local json = require 'utils.json'
-
 
 -- script.on_event -- script.on_event -- script.on_event -- script.on_event 
 

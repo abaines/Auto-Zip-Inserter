@@ -1,3 +1,6 @@
+require "hijack"
+
+
 local silo_script = require("silo-script")
 local version = 1
 
@@ -9,11 +12,7 @@ script.on_event(defines.events.on_player_created, function(event)
   player.insert{name="burner-mining-drill", count = 1}
   player.insert{name="stone-furnace", count = 1}
   player.force.chart(player.surface, {{player.position.x - 200, player.position.y - 200}, {player.position.x + 200, player.position.y + 200}})
-  if (#game.players <= 1) then
-    game.show_message_dialog{text = {"msg-intro"}}
-  else
-    player.print({"msg-intro"})
-  end
+  player.print({"msg-intro"})
   silo_script.on_player_created(event)
 end)
 

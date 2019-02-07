@@ -11,7 +11,7 @@ function companionship(event)
 	game.print("companionship: "..numberConnectedPlayers .. " / " .. global.companionshipLimit,{r=255,g=255})
 	
 	if numberConnectedPlayers < global.companionshipLimit then
-		game.speed = 1/30
+		game.speed = 1/6
 	else
 		game.speed = 1
 	end

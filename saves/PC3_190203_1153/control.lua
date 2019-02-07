@@ -1,5 +1,6 @@
 require "hijack"
 require "playerBonuses"
+require "companionship"
 
 local silo_script = require("silo-script")
 local version = 1

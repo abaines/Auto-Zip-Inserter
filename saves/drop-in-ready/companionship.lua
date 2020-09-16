@@ -1,23 +1,23 @@
 -- Kizrak
 
-require "hijack"
+--- needs "hijack"
 
 
 function companionship(event)
 	if not global.companionshipLimit then
 		global.companionshipLimit = 2
 	end
-	
+
 	local numberConnectedPlayers = #game.connected_players
-	
+
 	game.print("companionship: "..numberConnectedPlayers .. " / " .. global.companionshipLimit,{r=255,g=255})
-	
+
 	if numberConnectedPlayers < global.companionshipLimit then
 		game.speed = 1/6
 	else
 		game.speed = 1
 	end
-	
+
 	log("companionship")
 end
 

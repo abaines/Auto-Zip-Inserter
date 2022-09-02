@@ -1,5 +1,11 @@
 -- Kizrak
 -- kizrak-ant-trails-pavement.lua
+--[[
+	To activate this soft mod, place this file at the root of a save file,
+	and add the following line to the end of the control.lua file:
+	
+	handler.add_lib(require("kizrak-ant-trails-pavement"))
+]] --
 log("kizrak-ant-trails-pavement.lua")
 
 local sb = serpent.block -- luacheck: ignore 211

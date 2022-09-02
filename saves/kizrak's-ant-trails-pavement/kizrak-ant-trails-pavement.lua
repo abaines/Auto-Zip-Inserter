@@ -5,6 +5,12 @@ local sb = serpent.block -- luacheck: ignore 211
 log("kizrak-ant-trails-pavement.lua")
 
 
+--- TODO: time for a library soon...
+local function sbs(obj) -- luacheck: ignore 211
+	local s = sb( obj ):gsub("%s+", " ")
+	return s
+end
+
 
 local land_tiles = {}
 

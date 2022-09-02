@@ -60,7 +60,7 @@ def scan():
 
     else:
         # who doesn't love it when their computer beeps at them?
-        winsound.Beep(120,60)
+        # winsound.Beep(120,60)
 
         last_stamp = stamp
         print("🏃"*8,stamp, "change")
@@ -68,7 +68,7 @@ def scan():
         shutil.copy(SOURCE_FILE,DESTINATION_FILE)
 
         # Really!
-        winsound.Beep(320,60)
+        # winsound.Beep(320,60)
 
    
 def scanThreader():

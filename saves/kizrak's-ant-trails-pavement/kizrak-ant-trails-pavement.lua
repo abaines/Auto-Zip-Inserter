@@ -75,7 +75,7 @@ local place_stone_from_player = function(player)
 	local inventory = player.get_main_inventory()
 	local count_stone_brick = inventory.get_item_count("stone-brick")
 	
-	log(count_stone_brick)
+	log("count_stone_brick = " .. count_stone_brick)
 
 	if count_stone_brick > 100 then
 		inventory.remove({
@@ -102,10 +102,10 @@ local on_player_changed_position = function(event)
 	local tile_name = tile.name
 
 	if land_tiles[tile_name] then
-		log("land! " .. tile_name)
+		log("land! = " .. tile_name)
 		place_stone_from_player(player)
 	else
-		log("invalid tile " ..tile_name)
+		log("invalid-tile = " ..tile_name)
 	end
 
 end

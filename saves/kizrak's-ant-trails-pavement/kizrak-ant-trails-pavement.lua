@@ -66,7 +66,7 @@ local on_player_changed_position = function(event)
 	local player = game.players[event.player_index]
 	local position =player.position
 	log(position)
-	
+
 
 	inventory = player.get_main_inventory()
 	count_stone_brick = inventory.get_item_count("stone-brick")

@@ -26,7 +26,7 @@ land_tiles['dirt-7'] = true
 
 land_tiles['sand-1'] = true
 land_tiles['sand-2'] = true
-land_tiles['sadn-3'] = true
+land_tiles['sand-3'] = true
 
 land_tiles['red-desert-0'] = true
 land_tiles['red-desert-1'] = true

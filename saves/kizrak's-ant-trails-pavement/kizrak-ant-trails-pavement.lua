@@ -64,9 +64,10 @@ local place_stone_from_player = function(player)
     local inventory = player.get_main_inventory()
     local count_stone_brick = inventory.get_item_count("stone-brick")
 
-    log("count_stone_brick = " .. count_stone_brick)
-
     if count_stone_brick > 100 then
+        log("player = " .. player.name .. " count_stone_brick = " .. count_stone_brick .. " position = " ..
+                sbs(position))
+
         inventory.remove({
             name = "stone-brick",
             count = 1
@@ -84,17 +85,17 @@ end
 local on_player_changed_position = function(event)
     local player = game.players[event.player_index]
     local position = player.position
-    log('§' .. ' on_player_changed_position ' .. sbs(position))
+    -- log('§' .. ' on_player_changed_position ' .. sbs(position))
 
     local surface = player.surface
     local tile = surface.get_tile(position)
     local tile_name = tile.name
 
     if land_tiles[tile_name] then
-        log("land! = " .. tile_name)
+        -- log("land! = " .. tile_name)
         place_stone_from_player(player)
     else
-        log("invalid-tile = " .. tile_name)
+        -- log("invalid-tile = " .. tile_name)
     end
 
 end

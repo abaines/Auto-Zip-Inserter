@@ -65,12 +65,15 @@ local on_player_changed_position = function(event)
 		log("invalid tile " ..tile_name)
 	end
 
-	surface.set_tiles(
+	local result = surface.set_tiles(
 		{{
 			position = position,
 			name="stone-path",
-		}}
+		}},
+		true, true, true, false
 	)
+	log(result)
+
 end
 
 

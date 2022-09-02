@@ -68,13 +68,13 @@ local on_player_changed_position = function(event)
 	log(position)
 
 
-	inventory = player.get_main_inventory()
-	count_stone_brick = inventory.get_item_count("stone-brick")
+	local inventory = player.get_main_inventory()
+	local count_stone_brick = inventory.get_item_count("stone-brick")
 	log(count_stone_brick)
 
-	surface = player.surface
-	tile = surface.get_tile(position)
-	tile_name = tile.name
+	local surface = player.surface
+	local tile = surface.get_tile(position)
+	local tile_name = tile.name
 
 	if land_tiles[tile_name] then
 		log("land! " .. tile_name)

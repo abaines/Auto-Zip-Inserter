@@ -37,6 +37,30 @@ land_tiles['red-desert-3'] = true
 
 local ant_trails_pavement = {}
 
+
+local surface_set_tile = function(surface,position,tile_name)
+
+	local tile_array = {{
+		position = position,
+		name=tile_name,
+	}}
+
+	local correct_tiles = false
+	local remove_colliding_entities = "abort_on_collision"
+	local remove_colliding_decoratives = true
+	local raise_event = true
+
+	local result = surface.set_tiles(
+		tile_array,
+		correct_tiles,
+		remove_colliding_entities,
+		remove_colliding_decoratives,
+		raise_event
+	)
+
+	return result
+end
+
 local on_player_changed_position = function(event)
 	log('on_player_changed_position')
 	local player = game.players[event.player_index]
@@ -61,24 +85,8 @@ local on_player_changed_position = function(event)
 				count=1,
 			})
 
-			tile_array = {{
-				position = position,
-				name="stone-path",
-			}}
+			local result = surface_set_tile(surface, position, "stone-path")
 
-			correct_tiles = false
-			remove_colliding_entities = "abort_on_collision"
-			remove_colliding_decoratives = true
-			raise_event = true
-
-
-			local result = surface.set_tiles(
-				tile_array,
-				correct_tiles,
-				remove_colliding_entities,
-				remove_colliding_decoratives,
-				raise_event
-			)
 			log(result)
 		end
 	else

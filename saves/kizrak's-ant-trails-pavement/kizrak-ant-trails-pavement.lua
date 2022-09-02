@@ -5,6 +5,36 @@ local sb = serpent.block -- luacheck: ignore 211
 log("kizrak-ant-trails-pavement.lua")
 
 
+
+local land_tiles = {}
+
+land_tiles['grass-1'] = true
+land_tiles['grass-2'] = true
+land_tiles['grass-3'] = true
+land_tiles['grass-4'] = true
+
+land_tiles['nuclear-ground'] = true
+land_tiles['dry-dirt'] = true
+
+land_tiles['dirt-1'] = true
+land_tiles['dirt-2'] = true
+land_tiles['dirt-3'] = true
+land_tiles['dirt-4'] = true
+land_tiles['dirt-5'] = true
+land_tiles['dirt-6'] = true
+land_tiles['dirt-7'] = true
+
+land_tiles['sand-1'] = true
+land_tiles['sand-2'] = true
+land_tiles['sadn-3'] = true
+
+land_tiles['red-desert-0'] = true
+land_tiles['red-desert-1'] = true
+land_tiles['red-desert-2'] = true
+land_tiles['red-desert-3'] = true
+
+
+
 local ant_trails_pavement = {}
 
 local on_player_changed_position = function(event)
@@ -18,6 +48,10 @@ local on_player_changed_position = function(event)
 	inventory = player.get_main_inventory()
 	count_stone_brick = inventory.get_item_count("stone-brick")
 	log(count_stone_brick)
+
+	tile = player.surface.get_tile(position)
+	log(sb(tile))
+	log(tile.name)
 
 	if count_stone_brick > 100 then
 

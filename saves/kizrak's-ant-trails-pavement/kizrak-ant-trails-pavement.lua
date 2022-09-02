@@ -60,19 +60,20 @@ local on_player_changed_position = function(event)
 				name="stone-brick",
 				count=1,
 			})
+
+
+			local result = surface.set_tiles(
+				{{
+					position = position,
+					name="stone-path",
+				}},
+				false, "abort_on_collision", true, true
+			)
+			log(result)
 		end
 	else
 		log("invalid tile " ..tile_name)
 	end
-
-	local result = surface.set_tiles(
-		{{
-			position = position,
-			name="stone-path",
-		}},
-		true, true, true, false
-	)
-	log(result)
 
 end
 

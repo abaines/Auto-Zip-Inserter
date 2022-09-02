@@ -61,13 +61,23 @@ local on_player_changed_position = function(event)
 				count=1,
 			})
 
+			tile_array = {{
+				position = position,
+				name="stone-path",
+			}}
+
+			correct_tiles = false
+			remove_colliding_entities = "abort_on_collision"
+			remove_colliding_decoratives = true
+			raise_event = true
+
 
 			local result = surface.set_tiles(
-				{{
-					position = position,
-					name="stone-path",
-				}},
-				false, "abort_on_collision", true, true
+				tile_array,
+				correct_tiles,
+				remove_colliding_entities,
+				remove_colliding_decoratives,
+				raise_event
 			)
 			log(result)
 		end

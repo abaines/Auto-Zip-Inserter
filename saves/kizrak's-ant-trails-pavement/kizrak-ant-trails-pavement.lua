@@ -39,7 +39,6 @@ local ant_trails_pavement = {}
 
 local on_player_changed_position = function(event)
 	log('on_player_changed_position')
-	log(sb(event))
 	local player = game.players[event.player_index]
 	local position =player.position
 	log(position)
@@ -49,17 +48,29 @@ local on_player_changed_position = function(event)
 	count_stone_brick = inventory.get_item_count("stone-brick")
 	log(count_stone_brick)
 
-	tile = player.surface.get_tile(position)
-	log(sb(tile))
-	log(tile.name)
+	surface = player.surface
+	tile = surface.get_tile(position)
+	tile_name = tile.name
 
-	if count_stone_brick > 100 then
+	if land_tiles[tile_name] then
+		log("land! " .. tile_name)
+		if count_stone_brick > 100 then
 
-		inventory.remove({
-			name="stone-brick",
-			count=1,
-		})
+			inventory.remove({
+				name="stone-brick",
+				count=1,
+			})
+		end
+	else
+		log("invalid tile " ..tile_name)
 	end
+
+	surface.set_tiles(
+		{{
+			position = position,
+			name="stone-path",
+		}}
+	)
 end
 
 

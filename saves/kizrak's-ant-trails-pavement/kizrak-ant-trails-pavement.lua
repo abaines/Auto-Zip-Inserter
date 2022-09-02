@@ -67,16 +67,35 @@ local surface_set_tile = function(surface,position,tile_name)
 	return result
 end
 
-local on_player_changed_position = function(event)
-	log('on_player_changed_position')
-	local player = game.players[event.player_index]
-	local position =player.position
-	log(position)
 
+local place_stone_from_player = function(player)
+	local position =player.position
+	local surface = player.surface
 
 	local inventory = player.get_main_inventory()
 	local count_stone_brick = inventory.get_item_count("stone-brick")
+	
 	log(count_stone_brick)
+
+	if count_stone_brick > 100 then
+		inventory.remove({
+			name="stone-brick",
+			count=1,
+		})
+
+		local result = surface_set_tile(surface, position, "stone-path")
+
+		if result ~= nil then
+			log("💣")
+			log(result)
+		end
+	end
+end
+
+local on_player_changed_position = function(event)
+	local player = game.players[event.player_index]
+	local position =player.position
+	log('§' .. ' on_player_changed_position ' .. sbs(position))
 
 	local surface = player.surface
 	local tile = surface.get_tile(position)
@@ -84,17 +103,7 @@ local on_player_changed_position = function(event)
 
 	if land_tiles[tile_name] then
 		log("land! " .. tile_name)
-		if count_stone_brick > 100 then
-
-			inventory.remove({
-				name="stone-brick",
-				count=1,
-			})
-
-			local result = surface_set_tile(surface, position, "stone-path")
-
-			log(result)
-		end
+		place_stone_from_player(player)
 	else
 		log("invalid tile " ..tile_name)
 	end

@@ -17,7 +17,7 @@ import traceback
 
 # GLOBALS # GLOBALS # GLOBALS # GLOBALS # GLOBALS # GLOBALS # GLOBALS # GLOBALS 
 
-SOURCE_FILE = "C:/Users/baines/AppData/Roaming/Factorio/saves/Paige2022Aug27-0017modstart/kizrak-ant-trails-pavement.lua"
+SOURCE_FILE = "C:/Users/baines/AppData/Roaming/Factorio/saves/Paige2022Aug27-0042 coding/kizrak-ant-trails-pavement.lua"
 
 DESTINATION_FILE = "C:/Users/baines/Documents/Python/Auto-Zip-Inserter/saves/kizrak's-ant-trails-pavement/kizrak-ant-trails-pavement.lua"
 

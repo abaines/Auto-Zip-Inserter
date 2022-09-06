@@ -63,6 +63,27 @@ local surface_set_tile = function(surface, position, tile_name)
     return result
 end
 
+local happy_vehicles = {}
+happy_vehicles['car'] = true
+happy_vehicles['tank'] = true
+
+local function is_happy_vehicle(player)
+    local vehicle = player.vehicle
+
+    if vehicle then
+        local name = vehicle.name
+        local happy = happy_vehicles[name]
+
+        if happy then
+            return true
+        else
+            return false
+        end
+    else
+        return true
+    end
+end
+
 local place_stone_from_player = function(player)
     local position = player.position
     local surface = player.surface
@@ -70,7 +91,7 @@ local place_stone_from_player = function(player)
     local inventory = player.get_main_inventory()
     local count_stone_brick = inventory.get_item_count("stone-brick")
 
-    if count_stone_brick > 100 then
+    if count_stone_brick > 100 and is_happy_vehicle(player) then
         log("player = " .. player.name .. " count_stone_brick = " .. count_stone_brick .. " position = " ..
                 sbs(position))
 

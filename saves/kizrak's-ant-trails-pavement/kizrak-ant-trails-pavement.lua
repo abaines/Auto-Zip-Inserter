@@ -94,12 +94,15 @@ local place_stone_from_player = function(player)
     local count_stone_brick = inventory.get_item_count("stone-brick")
 
     if count_stone_brick > 100 and is_happy_vehicle(player) then
-        log("player = " .. player.name .. " count_stone_brick = " .. count_stone_brick .. " position = " ..
-                sbs(position))
 
         local result = surface_set_tile(surface, position, "stone-path")
 
         if result then
+            local player_text = "player = " .. player.name
+            local count_stone_brick_text = " count_stone_brick = " .. count_stone_brick
+            local position_text = " position = " .. sbs(position)
+            log(player_text .. count_stone_brick_text .. position_text)
+
             inventory.remove({
                 name = "stone-brick",
                 count = 1

@@ -60,7 +60,9 @@ local surface_set_tile = function(surface, position, tile_name)
     local result = surface.set_tiles(tiles, correct_tiles, remove_colliding_entities, remove_colliding_decoratives,
         raise_event)
 
-    return result
+    local next_tile = surface.get_tile(position)
+
+    return next_tile.name == tile_name
 end
 
 local happy_vehicles = {}

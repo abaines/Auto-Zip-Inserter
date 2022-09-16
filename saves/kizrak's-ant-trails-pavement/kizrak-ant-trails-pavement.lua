@@ -97,16 +97,13 @@ local place_stone_from_player = function(player)
         log("player = " .. player.name .. " count_stone_brick = " .. count_stone_brick .. " position = " ..
                 sbs(position))
 
-        inventory.remove({
-            name = "stone-brick",
-            count = 1
-        })
-
         local result = surface_set_tile(surface, position, "stone-path")
 
-        if result ~= nil then
-            log("💣")
-            log(result)
+        if result then
+            inventory.remove({
+                name = "stone-brick",
+                count = 1
+            })
         end
     end
 end

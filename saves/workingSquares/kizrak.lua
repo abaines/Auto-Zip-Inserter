@@ -131,7 +131,7 @@ local function short_list_of_chests()
 		end
 		
 		if index>1000 then
-			error()
+			error("index>1000")
 		end
 		
 		index = 1 + index
